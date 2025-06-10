@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   require_typeof
-} from "./chunk-DQVLZ2L4.js";
+} from "./chunk-T6O7ZRMI.js";
 import {
   __toESM
 } from "./chunk-YHCV7DAQ.js";
@@ -7000,14 +7000,14 @@ function(t3) {
   }, t3.loadImageFile = t3.loadFile;
 }(E.API), function(e) {
   function r() {
-    return (n.html2canvas ? Promise.resolve(n.html2canvas) : import("./html2canvas.esm-REN4OQ5R.js")).catch(function(t3) {
+    return (n.html2canvas ? Promise.resolve(n.html2canvas) : import("./html2canvas.esm-XUNQTQ5C.js")).catch(function(t3) {
       return Promise.reject(new Error("Could not load html2canvas: " + t3));
     }).then(function(t3) {
       return t3.default ? t3.default : t3;
     });
   }
   function i2() {
-    return (n.DOMPurify ? Promise.resolve(n.DOMPurify) : import("./purify.es-EIEMSY6P.js")).catch(function(t3) {
+    return (n.DOMPurify ? Promise.resolve(n.DOMPurify) : import("./purify.es-UNUE5HSZ.js")).catch(function(t3) {
       return Promise.reject(new Error("Could not load dompurify: " + t3));
     }).then(function(t3) {
       return t3.default ? t3.default : t3;
@@ -10531,7 +10531,7 @@ function(t3) {
  */
 function(t3) {
   function e() {
-    return (n.canvg ? Promise.resolve(n.canvg) : import("./index.es-D3Q72EQB.js")).catch(function(t4) {
+    return (n.canvg ? Promise.resolve(n.canvg) : import("./index.es-42UIZGHU.js")).catch(function(t4) {
       return Promise.reject(new Error("Could not load canvg: " + t4));
     }).then(function(t4) {
       return t4.default ? t4.default : t4;
