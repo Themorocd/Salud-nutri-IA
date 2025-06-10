@@ -6,9 +6,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(cors());// Permitir solicitudes desde cualquier origen
+app.use(express.json({ limit: '10mb' }));// Limitar el tamaño del cuerpo de la solicitud a 10 MB
+app.use(express.urlencoded({ limit: '10mb', extended: true }));// Permitir solicitudes con datos codificados en URL
 
 require('./db');
 

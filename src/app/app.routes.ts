@@ -7,6 +7,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { RecuperarPasswordComponent } from './components/recuperacion/recuperar-password.component';
 import { RestablecerPasswordComponent } from './components/restablecer/restablecer-password.component';
 import { AdminGuard } from './guards/admin.guard';
+import { LandingComponent } from './components/landing/landing.component';
+
 
 export const routes: Routes = [
   { path: 'perfil', component: PerfilComponent },
@@ -15,5 +17,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'recuperacion', component: RecuperarPasswordComponent },
   { path: 'restablecer-password', component: RestablecerPasswordComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }  // Redirige a login por defecto
+  { path: 'landing', component: LandingComponent },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' }  // Redirige
 ];

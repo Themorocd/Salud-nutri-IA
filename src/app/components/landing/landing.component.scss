@@ -1,0 +1,47 @@
+
+    body {
+      font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .landing-container {
+      max-width: 700px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .landing-title {
+      color: #2ecc71;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+    }
+    .landing-description {
+      color: #34495e;
+      font-size: 1.25rem;
+      margin-bottom: 2.2rem;
+      line-height: 1.6;
+    }
+    .landing-btn {
+      background: #003366;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 0.85rem 2.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,51,102,0.10);
+      text-decoration: none;
+      margin-top: 1rem;
+      display: inline-block;
+    }
+    .landing-btn:hover {
+      background: #002244;
+    }
+
