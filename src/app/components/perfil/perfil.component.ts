@@ -328,7 +328,7 @@ onFileSelected(event: any): void {
     });
   }
 
-  // Métodos auxiliares para trackBy en *ngFor (opcional, para rendimiento)
+  // Métodos auxiliares para trackBy en *ngFor
   trackByDia(index: number, item: any): any {
     return item.dia || index;
   }

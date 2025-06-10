@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
-import { CommonModule } from '@angular/common'; // Por si usas *ngIf, *ngFor
+import { CommonModule } from '@angular/common'; // Para CommonModule
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -28,7 +28,7 @@ export class RegisterComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-  // ...otros métodos...
+
   this.cargarObjetivos();
 }
 
@@ -97,7 +97,7 @@ export class RegisterComponent {
       correo: this.correo,
       password: this.password,
       objetivo: this.objetivo,
-      id_rutina: this.id_rutina // Asegúrate de que id_rutina esté definido en tu backend
+      id_rutina: this.id_rutina
 
 
     };
