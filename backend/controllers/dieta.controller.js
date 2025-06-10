@@ -7,7 +7,7 @@ exports.getAll = (req, res) => {
   });
 };
 
-exports.guardarDietaIA = (req, res) => {
+exports.guardarDietaIA = (req, res) => {// Guarda la dieta IA para un usuario
   const { id_usuario, dieta } = req.body;
   if (!id_usuario || !dieta) {
     return res.status(400).json({ message: 'Faltan datos para guardar la dieta.' });
@@ -19,7 +19,7 @@ exports.guardarDietaIA = (req, res) => {
   });
 };
 
-exports.getDietaIA = (req, res) => {
+exports.getDietaIA = (req, res) => {// Obtiene la dieta IA guardada para un usuario
   const { id_usuario } = req.params;
   const query = 'SELECT dieta_json FROM dietas_ia WHERE id_usuario = ?';
   db.query(query, [id_usuario], (err, results) => {

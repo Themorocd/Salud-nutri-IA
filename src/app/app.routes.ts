@@ -6,10 +6,11 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { RecuperarPasswordComponent } from './components/recuperacion/recuperar-password.component';
 import { RestablecerPasswordComponent } from './components/restablecer/restablecer-password.component';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: 'perfil', component: PerfilComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'recuperacion', component: RecuperarPasswordComponent },

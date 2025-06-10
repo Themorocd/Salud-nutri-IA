@@ -23,7 +23,7 @@ exports.asignarDieta = (req, res) => {
       params.push(`%${alergia}%`);
     });
   }
-  buscarDietaQuery += ` LIMIT 1`;
+  buscarDietaQuery += ` LIMIT 1`;// Limitar a una sola dieta que coincida
   db.query(buscarDietaQuery, params, (err, results) => {
     if (err) return res.status(500).json({ message: 'Error al buscar la dieta.' });
     if (results.length === 0) return res.status(404).json({ message: 'No se encontró una dieta para los criterios seleccionados.' });

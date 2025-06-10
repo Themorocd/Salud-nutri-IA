@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
-@Component({
+@Component({ // Componente de Login
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
@@ -25,7 +25,7 @@ export class LoginComponent {
 
 
 
-onLogin() {
+onLogin() {// Método para manejar el inicio de sesión
   if (!this.correo || !this.password) {
     alert('Por favor, completa todos los campos.');
     return;
@@ -42,7 +42,7 @@ onLogin() {
     next: (response: any) => {
       console.log('Login exitoso', response);
 
-        // Guarda el token en el almacenamiento local SOLO si estamos en browser
+        // Guarda el token en el almacenamiento local solo si estamos en browser
         if (isPlatformBrowser(this.platformId)) {
           localStorage.setItem('token', response.token);
         }
