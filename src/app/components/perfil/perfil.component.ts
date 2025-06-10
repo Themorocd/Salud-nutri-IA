@@ -51,7 +51,10 @@ export class PerfilComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    let token: string | null = null;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      token = localStorage.getItem('token');
+    }
     if (!token) {
       console.error('No se encontró un token. Redirigiendo al login...');
       this.router.navigate(['/login']);

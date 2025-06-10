@@ -113,14 +113,26 @@
 
 <hr>
 
+<!-- Gestión de Objetivos -->
 <h2>Gestión de Objetivos</h2>
 <form (ngSubmit)="agregarObjetivo()">
   <input [(ngModel)]="nuevoObjetivo" name="nuevoObjetivo" placeholder="Nuevo objetivo" required>
   <button type="submit">Agregar Objetivo</button>
 </form>
-<ul>
-  <li *ngFor="let obj of objetivos">{{obj.objetivo}}</li>
-</ul>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Objetivo</th>
+    <th>Acciones</th>
+  </tr>
+  <tr *ngFor="let obj of objetivos">
+    <td>{{obj.id}}</td>
+    <td>{{obj.objetivo}}</td>
+    <td>
+      <button type="button" (click)="eliminarObjetivo(obj.id)">Eliminar</button>
+    </td>
+  </tr>
+</table>
 
 <hr>
 <!-- Gestión de Alergias -->
@@ -129,18 +141,39 @@
   <input [(ngModel)]="nuevaAlergia" name="nuevaAlergia" placeholder="Nueva alergia" required>
   <button type="submit">Agregar Alergia</button>
 </form>
-<ul>
-  <li *ngFor="let alergia of alergias">{{alergia.alergia}}</li>
-</ul>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Alergia</th>
+    <th>Acciones</th>
+  </tr>
+  <tr *ngFor="let alergia of alergias">
+    <td>{{alergia.id}}</td>
+    <td>{{alergia.alergia}}</td>
+    <td>
+      <button type="button" (click)="eliminarAlergia(alergia.id)">Eliminar</button>
+    </td>
+  </tr>
+</table>
 
 <hr>
-
 <!-- Gestión de Tipos de Dieta -->
 <h2>Gestión de Tipos de Dieta</h2>
 <form (ngSubmit)="agregarTipoDieta()">
   <input [(ngModel)]="nuevoTipoDieta" name="nuevoTipoDieta" placeholder="Nuevo tipo de dieta" required>
   <button type="submit">Agregar Tipo de Dieta</button>
 </form>
-<ul>
-  <li *ngFor="let tipo of tiposDieta">{{tipo.tipo}}</li>
-</ul>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Tipo de Dieta</th>
+    <th>Acciones</th>
+  </tr>
+  <tr *ngFor="let tipo of tiposDieta">
+    <td>{{tipo.id}}</td>
+    <td>{{tipo.tipo}}</td>
+    <td>
+      <button type="button" (click)="eliminarTipoDieta(tipo.id)">Eliminar</button>
+    </td>
+  </tr>
+</table>

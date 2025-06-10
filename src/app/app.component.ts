@@ -1,34 +1,32 @@
-// src/app/app.component.ts
-import { Component,OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Router,NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
-
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Router, RouterOutlet,NavigationEnd } from '@angular/router';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,CommonModule],  // Asegúrate de que RouterOutlet esté importado aquí
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   currentView: string = 'login';
-  constructor(private router: Router) {}
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   // Verifica si el usuario está autenticado
   isAuthenticated(): boolean {
-    if (typeof localStorage === 'undefined') {
-      return false; // Si localStorage no está disponible, devuelve false
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('token');
     }
-    return !!localStorage.getItem('token'); // Devuelve true si el token existe
+    return false;
   }
 
   // Lógica para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token'); // Elimina el token
-    this.router.navigate(['/login']); // Redirige al login
-
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
   }
   ngOnInit(): void {
     // Detectar cambios en la ruta y actualizar la clase

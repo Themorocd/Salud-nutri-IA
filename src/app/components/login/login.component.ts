@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -17,7 +17,12 @@ export class LoginComponent {
   correo: string = '';
   password: string = '';
 
-constructor( private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
 
 
 onLogin() {
@@ -37,8 +42,10 @@ onLogin() {
     next: (response: any) => {
       console.log('Login exitoso', response);
 
-      // Guarda el token en el almacenamiento local
-      localStorage.setItem('token', response.token);
+        // Guarda el token en el almacenamiento local SOLO si estamos en browser
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);
+        }
 
       // Redirige según el rol
       if (response.user.rol === 'admin') {

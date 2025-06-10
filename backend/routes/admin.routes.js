@@ -33,13 +33,15 @@ router.delete('/dietas/:id', verificarAdmin, adminController.deleteDieta);
 // Objetivos
 router.get('/objetivos', verificarAdmin, adminController.getObjetivos);
 router.post('/objetivos', verificarAdmin, adminController.addObjetivo);
+router.delete('/objetivos/:id', verificarAdmin,adminController.deleteObjetivo);
 
 // Alergias
 router.get('/alergias', verificarAdmin, adminController.getAlergias);
 router.post('/alergias', verificarAdmin, adminController.addAlergia);
-
+router.delete('/alergias/:id',verificarAdmin, adminController.deleteAlergia);
 // Tipos de dieta
 router.get('/tipos-dieta', verificarAdmin, adminController.getTiposDieta);
 router.post('/tipos-dieta', verificarAdmin, adminController.addTipoDieta);
+router.delete('/tipos-dieta/:id', verificarAdmin, adminController.deleteTipoDieta);
 
 module.exports = router;

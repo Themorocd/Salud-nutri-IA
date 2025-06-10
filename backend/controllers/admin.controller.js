@@ -82,6 +82,14 @@ exports.addObjetivo = (req, res) => {
   });
 };
 
+exports.deleteObjetivo = (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM objetivo WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ message: 'Error al borrar objetivo' });
+    res.json({ message: 'Objetivo borrado' });
+  });
+};
+
 // Alergias
 exports.getAlergias = (req, res) => {
   db.query('SELECT * FROM alergias', (err, results) => {
@@ -97,6 +105,15 @@ exports.addAlergia = (req, res) => {
   });
 };
 
+exports.deleteAlergia = (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM alergias WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ message: 'Error al borrar alergia' });
+    res.json({ message: 'Alergia borrada' });
+  });
+};
+
+
 // Tipos de dieta
 exports.getTiposDieta = (req, res) => {
   db.query('SELECT * FROM tipos_dieta', (err, results) => {
@@ -111,3 +128,11 @@ exports.addTipoDieta = (req, res) => {
     res.json({ message: 'Tipo de dieta agregado' });
   });
 };
+exports.deleteTipoDieta = (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM tipos_dieta WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ message: 'Error al borrar tipo de dieta' });
+    res.json({ message: 'Tipo de dieta borrado' });
+  });
+};
+
