@@ -49,6 +49,8 @@ export class PerfilComponent implements OnInit {
   dietaSeleccionada: any = { tipo: '', alergias: [] };
   objetivos: any[] = [];
   idioma: 'en' | 'es' = 'en';
+  mostrarRutinaIA: boolean = false;
+  mostrarDietaIA: boolean = false;
 
   constructor(private router: Router, private http: HttpClient, private languageService: LanguageService) {
     this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
@@ -268,11 +270,18 @@ export class PerfilComponent implements OnInit {
     this.tipoRespuesta = tipo;
   }
 
-  pedirIA(tipo: string): void {
-    this.setTipoRespuesta(tipo);
-    this.mensajeIA = '';
-    this.enviarMensajeIA();
+pedirIA(tipo: string): void {
+  this.setTipoRespuesta(tipo);
+  this.mensajeIA = '';
+  if (tipo === 'rutina') {
+    this.mostrarRutinaIA = true;
+    this.mostrarDietaIA = false;
+  } else if (tipo === 'dieta') {
+    this.mostrarDietaIA = true;
+    this.mostrarRutinaIA = false;
   }
+  this.enviarMensajeIA();
+}
 
   enviarMensajeIA(event?: Event): void {
     if (event) event.preventDefault();
@@ -310,10 +319,10 @@ export class PerfilComponent implements OnInit {
         if (response.recomendaciones) {
           if (response.recomendaciones.rutina) {
             this.rutinaIA = response.recomendaciones.rutina;
-            this.dietaIA = []; // Limpiar dietaIA si solo se pidió rutina
+            //this.dietaIA = []; // Limpiar dietaIA si solo se pidió rutina
           } else if (response.recomendaciones.dieta) {
             this.dietaIA = response.recomendaciones.dieta;
-            this.rutinaIA = []; // Limpiar rutinaIA si solo se pidió dieta
+            //this.rutinaIA = []; // Limpiar rutinaIA si solo se pidió dieta
           }
           this.mensajesIA.push({ usuario: false, texto: '' });
         } else {

@@ -305,9 +305,9 @@
           <p>{{ mensaje.texto }}</p>
         </ng-container>
         <ng-container *ngIf="!mensaje.usuario">
-          <!-- Solo en el último mensaje de la IA muestra las tablas -->
-          <ng-container *ngIf="i === mensajesIA.length - 1 && (rutinaIA?.length || dietaIA?.length); else textoIA">
-            <ng-container *ngIf="rutinaIA?.length">
+          <!-- Solo en el último mensaje de la IA muestra la tabla correspondiente -->
+          <ng-container *ngIf="i === mensajesIA.length - 1; else textoIA">
+            <ng-container *ngIf="tipoRespuesta === 'rutina' && rutinaIA?.length">
               <h3>{{ idioma === 'es' ? 'Rutina de entrenamiento' : 'Training routine' }}</h3>
               <div *ngFor="let dia of rutinaIA">
                 <div class="dia-semana-titulo">{{ dia.dia }}</div>
@@ -338,7 +338,7 @@
                 {{ idioma === 'es' ? 'Guardar rutina IA' : 'Save AI routine' }}
               </button>
             </ng-container>
-            <ng-container *ngIf="dietaIA?.length">
+            <ng-container *ngIf="tipoRespuesta === 'dieta' && dietaIA?.length">
               <h3>{{ idioma === 'es' ? 'Dieta personalizada' : 'Personalized diet' }}</h3>
               <div *ngFor="let dia of dietaIA">
                 <div class="dia-semana-titulo">
