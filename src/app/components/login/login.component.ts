@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import {isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
 
 
 @Component({ // Componente de Login
@@ -16,12 +17,16 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   correo: string = '';
   password: string = '';
-
+  idioma: 'en' | 'es' = 'en';
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private languageService: LanguageService
+  ) {
+     this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+
+  }
 
 
 

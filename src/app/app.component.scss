@@ -97,3 +97,28 @@ $complementary-color: #34495e; // Azul oscuro
     transform: translateY(0);
   }
 }
+.idioma-btn {
+  background: #2ecc71; // Usa tu color principal
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  outline: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.idioma-btn:hover,
+.idioma-btn:focus {
+  background: #27ae60;
+  box-shadow: 0 4px 16px #0003;
+  transform: translateY(-2px) scale(1.03);
+}

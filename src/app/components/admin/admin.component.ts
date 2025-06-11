@@ -3,6 +3,8 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
+
 
 @Component({
   selector: 'app-admin',
@@ -34,14 +36,18 @@ export class AdminComponent implements OnInit {
     enfoque: ''
   };
   nuevaDieta: any = { nombre: '', tipo: '', alergias: '', descripcion: '' };
-
+idioma: 'en' | 'es' = 'en';
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private languageService: LanguageService
+  ) {
+    this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+  }
 
-  ngOnInit() {
+
+  ngOnInit() {// Cargar datos al iniciar el componente
     this.cargarUsuarios();
     this.cargarRutinas();
     this.cargarDietas();

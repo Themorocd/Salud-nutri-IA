@@ -1,49 +1,59 @@
-<h2>Gestión de Usuarios</h2>
-<button (click)="volverAlLogin()">Volver al Login</button>
+<!-- Gestión de Usuarios -->
+<h2>{{ idioma === 'es' ? 'Gestión de Usuarios' : 'User Management' }}</h2>
+<button (click)="volverAlLogin()">
+  {{ idioma === 'es' ? 'Volver al Login' : 'Back to Login' }}
+</button>
 <table>
   <tr>
     <th>ID</th>
-    <th>Nombre</th>
-    <th>Correo</th>
-    <th>Rol</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Nombre' : 'Name' }}</th>
+    <th>{{ idioma === 'es' ? 'Correo' : 'Email' }}</th>
+    <th>{{ idioma === 'es' ? 'Rol' : 'Role' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
-<tr *ngFor="let usuario of usuariosNoAdmin">
-  <td>{{usuario.id_usuario}}</td>
-  <td>{{usuario.nombre}}</td>
-  <td>{{usuario.correo}}</td>
-  <td>{{usuario.rol}}</td>
-  <td>
-    <button (click)="borrarUsuario(usuario.id_usuario)">Borrar</button>
-  </td>
-</tr>
+  <tr *ngFor="let usuario of usuariosNoAdmin">
+    <td>{{usuario.id_usuario}}</td>
+    <td>{{usuario.nombre}}</td>
+    <td>{{usuario.correo}}</td>
+    <td>{{usuario.rol}}</td>
+    <td>
+      <button (click)="borrarUsuario(usuario.id_usuario)">
+        {{ idioma === 'es' ? 'Borrar' : 'Delete' }}
+      </button>
+    </td>
+  </tr>
 </table>
 
 <hr>
 
-<h2>Gestión de Rutinas Básicas</h2>
+<!-- Gestión de Rutinas Básicas -->
+<h2>{{ idioma === 'es' ? 'Gestión de Rutinas Básicas' : 'Basic Routine Management' }}</h2>
 <form (ngSubmit)="agregarRutina()">
   <select [(ngModel)]="nuevaRutina.objetivo" name="objetivo" required>
-    <option value="" disabled selected>Selecciona un objetivo</option>
+    <option value="" disabled selected>
+      {{ idioma === 'es' ? 'Selecciona un objetivo' : 'Select a goal' }}
+    </option>
     <option *ngFor="let obj of objetivos" [value]="obj.objetivo">{{obj.objetivo}}</option>
   </select>
-  <input [(ngModel)]="nuevaRutina.dias_por_semana" name="dias_por_semana" placeholder="Días por semana" required type="number">
-  <input [(ngModel)]="nuevaRutina.tipo_entrenamiento" name="tipo_entrenamiento" placeholder="Tipo de entrenamiento" required>
-  <input [(ngModel)]="nuevaRutina.semana" name="semana" placeholder="Semana" required>
-  <input [(ngModel)]="nuevaRutina.principios" name="principios" placeholder="Principios" required>
-  <input [(ngModel)]="nuevaRutina.enfoque" name="enfoque" placeholder="Enfoque" required>
-  <button type="submit">Agregar Rutina</button>
+  <input [(ngModel)]="nuevaRutina.dias_por_semana" name="dias_por_semana" [placeholder]="idioma === 'es' ? 'Días por semana' : 'Days per week'" required type="number">
+  <input [(ngModel)]="nuevaRutina.tipo_entrenamiento" name="tipo_entrenamiento" [placeholder]="idioma === 'es' ? 'Tipo de entrenamiento' : 'Training type'" required>
+  <input [(ngModel)]="nuevaRutina.semana" name="semana" [placeholder]="idioma === 'es' ? 'Semana' : 'Week'" required>
+  <input [(ngModel)]="nuevaRutina.principios" name="principios" [placeholder]="idioma === 'es' ? 'Principios' : 'Principles'" required>
+  <input [(ngModel)]="nuevaRutina.enfoque" name="enfoque" [placeholder]="idioma === 'es' ? 'Enfoque' : 'Focus'" required>
+  <button type="submit">
+    {{ idioma === 'es' ? 'Agregar Rutina' : 'Add Routine' }}
+  </button>
 </form>
 <table>
   <tr>
     <th>ID</th>
-    <th>Objetivo</th>
-    <th>Días por semana</th>
-    <th>Tipo de entrenamiento</th>
-    <th>Semana</th>
-    <th>Principios</th>
-    <th>Enfoque</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Objetivo' : 'Goal' }}</th>
+    <th>{{ idioma === 'es' ? 'Días por semana' : 'Days per week' }}</th>
+    <th>{{ idioma === 'es' ? 'Tipo de entrenamiento' : 'Training type' }}</th>
+    <th>{{ idioma === 'es' ? 'Semana' : 'Week' }}</th>
+    <th>{{ idioma === 'es' ? 'Principios' : 'Principles' }}</th>
+    <th>{{ idioma === 'es' ? 'Enfoque' : 'Focus' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
   <tr *ngFor="let rutina of rutinas">
     <td>{{rutina.id}}</td>
@@ -54,25 +64,28 @@
     <td><input [(ngModel)]="rutina.principios" name="principios{{rutina.id}}"></td>
     <td><input [(ngModel)]="rutina.enfoque" name="enfoque{{rutina.id}}"></td>
     <td>
-      <button (click)="editarRutina(rutina)">Guardar</button>
-      <button (click)="eliminarRutina(rutina.id)">Eliminar</button>
+      <button (click)="editarRutina(rutina)">
+        {{ idioma === 'es' ? 'Guardar' : 'Save' }}
+      </button>
+      <button (click)="eliminarRutina(rutina.id)">
+        {{ idioma === 'es' ? 'Eliminar' : 'Delete' }}
+      </button>
     </td>
   </tr>
 </table>
 
 <hr>
 
-<h2>Gestión de Dietas Básicas</h2>
+<!-- Gestión de Dietas Básicas -->
+<h2>{{ idioma === 'es' ? 'Gestión de Dietas Básicas' : 'Basic Diet Management' }}</h2>
 <form (ngSubmit)="agregarDieta()">
-  <input [(ngModel)]="nuevaDieta.nombre" name="nombreDieta" placeholder="Nombre dieta" required>
-
-  <!-- Select para tipo de dieta -->
+  <input [(ngModel)]="nuevaDieta.nombre" name="nombreDieta" [placeholder]="idioma === 'es' ? 'Nombre dieta' : 'Diet name'" required>
   <select [(ngModel)]="nuevaDieta.tipo" name="tipoDieta" required>
-    <option value="" disabled selected>Selecciona un tipo de dieta</option>
+    <option value="" disabled selected>
+      {{ idioma === 'es' ? 'Selecciona un tipo de dieta' : 'Select a diet type' }}
+    </option>
     <option *ngFor="let tipo of tiposDieta" [value]="tipo.tipo">{{tipo.tipo}}</option>
   </select>
-
-  <!-- Checkboxes para alergias -->
   <div>
     <label *ngFor="let alergia of alergias" style="margin-right: 10px;">
       <input
@@ -84,19 +97,19 @@
       {{alergia.alergia}}
     </label>
   </div>
-
-  <input [(ngModel)]="nuevaDieta.descripcion" name="descDieta" placeholder="Descripción" required>
-  <button type="submit">Agregar Dieta</button>
+  <input [(ngModel)]="nuevaDieta.descripcion" name="descDieta" [placeholder]="idioma === 'es' ? 'Descripción' : 'Description'" required>
+  <button type="submit">
+    {{ idioma === 'es' ? 'Agregar Dieta' : 'Add Diet' }}
+  </button>
 </form>
-
 <table>
   <tr>
     <th>ID</th>
-    <th>Nombre</th>
-    <th>Tipo</th>
-    <th>Alergias</th>
-    <th>Descripción</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Nombre' : 'Name' }}</th>
+    <th>{{ idioma === 'es' ? 'Tipo' : 'Type' }}</th>
+    <th>{{ idioma === 'es' ? 'Alergias' : 'Allergies' }}</th>
+    <th>{{ idioma === 'es' ? 'Descripción' : 'Description' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
   <tr *ngFor="let dieta of dietas">
     <td>{{dieta.id}}</td>
@@ -105,8 +118,12 @@
     <td><input [(ngModel)]="dieta.alergias" name="alergiasDieta{{dieta.id}}"></td>
     <td><input [(ngModel)]="dieta.descripcion" name="descDieta{{dieta.id}}"></td>
     <td>
-      <button (click)="editarDieta(dieta)">Guardar</button>
-      <button (click)="eliminarDieta(dieta.id)">Eliminar</button>
+      <button (click)="editarDieta(dieta)">
+        {{ idioma === 'es' ? 'Guardar' : 'Save' }}
+      </button>
+      <button (click)="eliminarDieta(dieta.id)">
+        {{ idioma === 'es' ? 'Eliminar' : 'Delete' }}
+      </button>
     </td>
   </tr>
 </table>
@@ -114,66 +131,80 @@
 <hr>
 
 <!-- Gestión de Objetivos -->
-<h2>Gestión de Objetivos</h2>
+<h2>{{ idioma === 'es' ? 'Gestión de Objetivos' : 'Goal Management' }}</h2>
 <form (ngSubmit)="agregarObjetivo()">
-  <input [(ngModel)]="nuevoObjetivo" name="nuevoObjetivo" placeholder="Nuevo objetivo" required>
-  <button type="submit">Agregar Objetivo</button>
+  <input [(ngModel)]="nuevoObjetivo" name="nuevoObjetivo" [placeholder]="idioma === 'es' ? 'Nuevo objetivo' : 'New goal'" required>
+  <button type="submit">
+    {{ idioma === 'es' ? 'Agregar Objetivo' : 'Add Goal' }}
+  </button>
 </form>
 <table>
   <tr>
     <th>ID</th>
-    <th>Objetivo</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Objetivo' : 'Goal' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
   <tr *ngFor="let obj of objetivos">
     <td>{{obj.id}}</td>
     <td>{{obj.objetivo}}</td>
     <td>
-      <button type="button" (click)="eliminarObjetivo(obj.id)">Eliminar</button>
+      <button type="button" (click)="eliminarObjetivo(obj.id)">
+        {{ idioma === 'es' ? 'Eliminar' : 'Delete' }}
+      </button>
     </td>
   </tr>
 </table>
 
 <hr>
+
 <!-- Gestión de Alergias -->
-<h2>Gestión de Alergias</h2>
+<h2>{{ idioma === 'es' ? 'Gestión de Alergias' : 'Allergy Management' }}</h2>
 <form (ngSubmit)="agregarAlergia()">
-  <input [(ngModel)]="nuevaAlergia" name="nuevaAlergia" placeholder="Nueva alergia" required>
-  <button type="submit">Agregar Alergia</button>
+  <input [(ngModel)]="nuevaAlergia" name="nuevaAlergia" [placeholder]="idioma === 'es' ? 'Nueva alergia' : 'New allergy'" required>
+  <button type="submit">
+    {{ idioma === 'es' ? 'Agregar Alergia' : 'Add Allergy' }}
+  </button>
 </form>
 <table>
   <tr>
     <th>ID</th>
-    <th>Alergia</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Alergia' : 'Allergy' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
   <tr *ngFor="let alergia of alergias">
     <td>{{alergia.id}}</td>
     <td>{{alergia.alergia}}</td>
     <td>
-      <button type="button" (click)="eliminarAlergia(alergia.id)">Eliminar</button>
+      <button type="button" (click)="eliminarAlergia(alergia.id)">
+        {{ idioma === 'es' ? 'Eliminar' : 'Delete' }}
+      </button>
     </td>
   </tr>
 </table>
 
 <hr>
+
 <!-- Gestión de Tipos de Dieta -->
-<h2>Gestión de Tipos de Dieta</h2>
+<h2>{{ idioma === 'es' ? 'Gestión de Tipos de Dieta' : 'Diet Type Management' }}</h2>
 <form (ngSubmit)="agregarTipoDieta()">
-  <input [(ngModel)]="nuevoTipoDieta" name="nuevoTipoDieta" placeholder="Nuevo tipo de dieta" required>
-  <button type="submit">Agregar Tipo de Dieta</button>
+  <input [(ngModel)]="nuevoTipoDieta" name="nuevoTipoDieta" [placeholder]="idioma === 'es' ? 'Nuevo tipo de dieta' : 'New diet type'" required>
+  <button type="submit">
+    {{ idioma === 'es' ? 'Agregar Tipo de Dieta' : 'Add Diet Type' }}
+  </button>
 </form>
 <table>
   <tr>
     <th>ID</th>
-    <th>Tipo de Dieta</th>
-    <th>Acciones</th>
+    <th>{{ idioma === 'es' ? 'Tipo de Dieta' : 'Diet Type' }}</th>
+    <th>{{ idioma === 'es' ? 'Acciones' : 'Actions' }}</th>
   </tr>
   <tr *ngFor="let tipo of tiposDieta">
     <td>{{tipo.id}}</td>
     <td>{{tipo.tipo}}</td>
     <td>
-      <button type="button" (click)="eliminarTipoDieta(tipo.id)">Eliminar</button>
+      <button type="button" (click)="eliminarTipoDieta(tipo.id)">
+        {{ idioma === 'es' ? 'Eliminar' : 'Delete' }}
+      </button>
     </td>
   </tr>
 </table>

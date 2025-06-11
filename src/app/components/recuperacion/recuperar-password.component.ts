@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-recuperar-password',
@@ -13,8 +14,11 @@ import { CommonModule } from '@angular/common';
 export class RecuperarPasswordComponent {
   correo: string = '';
   mensaje: string = '';
+  idioma: 'en' | 'es' = 'en';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private languageService: LanguageService) {
+      this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+    }
 
   solicitarRecuperacion() {
     if (!this.correo) {

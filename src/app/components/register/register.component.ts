@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
 import { CommonModule } from '@angular/common'; // Para CommonModule
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-register',
@@ -24,8 +25,12 @@ export class RegisterComponent {
   id_rutina: number | null = null; // Asignar un valor por defecto o null
   objetivos: any[] = [];
   repeatPassword: string = '';
+  idioma: 'en' | 'es' = 'en';
 
-  constructor(private http: HttpClient, private router: Router) {}
+
+  constructor(private http: HttpClient, private router: Router,  private languageService: LanguageService) {
+    this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+  }
 
   ngOnInit(): void {
 

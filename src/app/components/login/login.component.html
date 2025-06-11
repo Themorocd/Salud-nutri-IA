@@ -1,20 +1,37 @@
-<h2 class="form-title">Iniciar Sesión</h2>
+<h2 class="form-title">
+  {{ idioma === 'es' ? 'Iniciar Sesión' : 'Login' }}
+</h2>
 
 <form class="form-container" (ngSubmit)="onLogin()">
   <div class="form-group">
-    <label for="correo">Correo:</label>
-    <input id="correo" type="email" [(ngModel)]="correo" name="correo" required placeholder="Introduce tu correo">
+    <label for="correo">
+      {{ idioma === 'es' ? 'Correo:' : 'Email:' }}
+    </label>
+    <input
+      id="correo"
+      type="email"
+      [(ngModel)]="correo"
+      name="correo"
+      required
+      [placeholder]="idioma === 'es' ? 'Introduce tu correo' : 'Enter your email'"
+    >
   </div>
 
   <div class="form-group">
-    <label for="password">Contraseña:</label>
-    <input id="password" type="password" [(ngModel)]="password" name="password" required placeholder="Introduce tu contraseña">
+    <label for="password">
+      {{ idioma === 'es' ? 'Contraseña:' : 'Password:' }}
+    </label>
+    <input
+      id="password"
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+      [placeholder]="idioma === 'es' ? 'Introduce tu contraseña' : 'Enter your password'"
+    >
   </div>
 
-  <button class="form-button" type="submit">Entrar</button>
-
+  <button class="form-button" type="submit">
+    {{ idioma === 'es' ? 'Entrar' : 'Login' }}
+  </button>
 </form>
-
-
-
-

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, RouterOutlet,NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,11 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   currentView: string = 'login';
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
+  idioma: 'en' | 'es' = 'en';
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object,  private languageService: LanguageService) {
+     this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+
+  }
 
   // Verifica si el usuario está autenticado
   isAuthenticated(): boolean {
@@ -43,6 +48,9 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+    cambiarIdioma() {
+    this.languageService.setIdioma(this.idioma === 'es' ? 'en' : 'es');
   }
 
 }

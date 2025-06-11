@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { LanguageService } from '../../services/language.service';
 @Component({
   selector: 'app-restablecer-password',
   standalone: true,
@@ -16,11 +16,13 @@ export class RestablecerPasswordComponent {
   repitePassword = '';
   mensaje = '';
   token = '';
+    idioma: 'en' | 'es' = 'en';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private http: HttpClient,  private languageService: LanguageService) {
     this.route.queryParams.subscribe(params => {
       this.token = params['token'] || '';
     });
+    this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
   }
 
   onSubmit() {

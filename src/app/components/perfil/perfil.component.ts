@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { jwtDecode } from 'jwt-decode';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { LanguageService } from '../../services/language.service';
 
 // Interfaces para tipado
 interface Ejercicio {
@@ -47,8 +48,11 @@ export class PerfilComponent implements OnInit {
   alergias: any[] = [];
   dietaSeleccionada: any = { tipo: '', alergias: [] };
   objetivos: any[] = [];
+  idioma: 'en' | 'es' = 'en';
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private languageService: LanguageService) {
+    this.languageService.idioma$.subscribe((idioma: 'es' | 'en') => this.idioma = idioma);
+  }
 
   ngOnInit(): void {
     let token: string | null = null;
@@ -61,7 +65,7 @@ export class PerfilComponent implements OnInit {
       return;
     }
     try {
-      const decodedToken: any = jwtDecode(token);
+      const decodedToken: any = jwtDecode(token);// Decodifica el token JWT
       const userId = decodedToken.userId;
       if (!userId) {
         console.error('El token no contiene un ID de usuario válido.');
@@ -91,16 +95,16 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-cargarObjetivos() {
-  this.http.get('http://localhost:3000/api/usuarios/objetivos-public').subscribe((res: any) => this.objetivos = res);
-}
+  cargarObjetivos() {
+    this.http.get('http://localhost:3000/api/usuarios/objetivos-public').subscribe((res: any) => this.objetivos = res);
+  }
 
-cargarTiposDieta() {
-  this.http.get('http://localhost:3000/api/usuarios/tipos-dieta-public').subscribe((res: any) => this.tiposDieta = res);
-}
-cargarAlergias() {
-  this.http.get('http://localhost:3000/api/usuarios/alergias-public').subscribe((res: any) => this.alergias = res);
-}
+  cargarTiposDieta() {
+    this.http.get('http://localhost:3000/api/usuarios/tipos-dieta-public').subscribe((res: any) => this.tiposDieta = res);
+  }
+  cargarAlergias() {
+    this.http.get('http://localhost:3000/api/usuarios/alergias-public').subscribe((res: any) => this.alergias = res);
+  }
 
   onAlergiaChange(event: any) {
     const value = event.target.value;
@@ -121,52 +125,52 @@ cargarAlergias() {
     this.router.navigate(['/login']);
   }
 
-onFileSelected(event: any): void {
-  const file = event.target.files[0];
-  if (file) {
-    if (file.size > 10 * 1024 * 1024) {
-      alert('El archivo es demasiado grande. El tamaño máximo permitido es de 10 MB.');
-      return;
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert('El archivo es demasiado grande. El tamaño máximo permitido es de 10 MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const base64Foto = e.target.result.split(',')[1];
+        this.http.put(`http://localhost:3000/api/usuarios/users/${this.user.id_usuario}/foto`, { foto: base64Foto }).subscribe({
+          next: (response: any) => {
+            console.log('Foto actualizada correctamente:', response);
+            alert('La foto se ha actualizado correctamente.');
+            this.user.foto = base64Foto;
+          },
+          error: (error) => {
+            console.error('Error al actualizar la foto:', error);
+            alert('Hubo un error al actualizar la foto. Por favor, inténtalo de nuevo.');
+          },
+        });
+      };
+      reader.readAsDataURL(file);
     }
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const base64Foto = e.target.result.split(',')[1];
-      this.http.put(`http://localhost:3000/api/usuarios/users/${this.user.id_usuario}/foto`, { foto: base64Foto }).subscribe({
-        next: (response: any) => {
-          console.log('Foto actualizada correctamente:', response);
-          alert('La foto se ha actualizado correctamente.');
-          this.user.foto = base64Foto;
-        },
-        error: (error) => {
-          console.error('Error al actualizar la foto:', error);
-          alert('Hubo un error al actualizar la foto. Por favor, inténtalo de nuevo.');
-        },
-      });
-    };
-    reader.readAsDataURL(file);
   }
-}
   toggleEditar(): void {
     this.editando = !this.editando;
   }
 
- guardarCambios(): void {
-  if (!this.user.id_usuario) {
-    console.error('No se puede guardar porque falta el ID del usuario.');
-    return;
+  guardarCambios(): void {
+    if (!this.user.id_usuario) {
+      console.error('No se puede guardar porque falta el ID del usuario.');
+      return;
+    }
+    this.http.put(`http://localhost:3000/api/usuarios/users/${this.user.id_usuario}`, this.user).subscribe({
+      next: (response: any) => {
+        console.log('Datos actualizados correctamente:', response);
+        alert('Los cambios se han guardado correctamente.');
+        this.cargarRutina();
+      },
+      error: (error) => {
+        console.error('Error al guardar los cambios:', error);
+        alert('Hubo un error al guardar los cambios. Por favor, inténtalo de nuevo.');
+      },
+    });
   }
-  this.http.put(`http://localhost:3000/api/usuarios/users/${this.user.id_usuario}`, this.user).subscribe({
-    next: (response: any) => {
-      console.log('Datos actualizados correctamente:', response);
-      alert('Los cambios se han guardado correctamente.');
-      this.cargarRutina();
-    },
-    error: (error) => {
-      console.error('Error al guardar los cambios:', error);
-      alert('Hubo un error al guardar los cambios. Por favor, inténtalo de nuevo.');
-    },
-  });
-}
 
   cargarRutina(): void {
     if (!this.user.objetivo) {
@@ -279,12 +283,16 @@ onFileSelected(event: any): void {
     this.mensajesIA.push({
       usuario: true,
       texto: this.tipoRespuesta === 'rutina'
-        ? 'Quiero una rutina personalizada.'
-        : 'Quiero una dieta personalizada.'
+        ? (this.idioma === 'es' ? 'Quiero una rutina personalizada.' : 'I want a personalized routine.')
+        : (this.idioma === 'es' ? 'Quiero una dieta personalizada.' : 'I want a personalized diet.')
     });
 
-    this.rutinaIA = [];
-    this.dietaIA = [];
+    // Solo limpia la variable correspondiente
+    if (this.tipoRespuesta === 'rutina') {
+      this.rutinaIA = [];
+    } else if (this.tipoRespuesta === 'dieta') {
+      this.dietaIA = [];
+    }
 
     const datosUsuario = {
       edad: this.user.edad,
@@ -302,14 +310,10 @@ onFileSelected(event: any): void {
         if (response.recomendaciones) {
           if (response.recomendaciones.rutina) {
             this.rutinaIA = response.recomendaciones.rutina;
-          } else {
-            this.rutinaIA = [];
-          }
-          if (response.recomendaciones.dieta) {
+            this.dietaIA = []; // Limpiar dietaIA si solo se pidió rutina
+          } else if (response.recomendaciones.dieta) {
             this.dietaIA = response.recomendaciones.dieta;
-            console.log('DIETA IA:', this.dietaIA);
-          } else {
-            this.dietaIA = [];
+            this.rutinaIA = []; // Limpiar rutinaIA si solo se pidió dieta
           }
           this.mensajesIA.push({ usuario: false, texto: '' });
         } else {
@@ -327,7 +331,6 @@ onFileSelected(event: any): void {
       }
     });
   }
-
   // Métodos auxiliares para trackBy en *ngFor
   trackByDia(index: number, item: any): any {
     return item.dia || index;
@@ -392,109 +395,109 @@ onFileSelected(event: any): void {
       });
   }
 
-descargarPDF() {
-  const doc = new jsPDF();
-  let y = 15;
+  descargarPDF() {
+    const doc = new jsPDF();
+    let y = 15;
 
-  // Datos personales
-  doc.setFontSize(16);
-  doc.text('Datos del Usuario', 14, y);
-  doc.setFontSize(12);
-  y += 8;
-  doc.text(`Nombre: ${this.user.nombre || ''}`, 14, y);
-  y += 7;
-  doc.text(`Correo: ${this.user.correo || ''}`, 14, y);
-  y += 7;
-  doc.text(`Peso actual: ${this.user.peso_actual || ''} kg`, 14, y);
-  y += 7;
-  doc.text(`Altura: ${this.user.altura || ''} cm`, 14, y);
-  y += 7;
-  doc.text(`Objetivo: ${this.user.objetivo || ''}`, 14, y);
-  y += 10;
+    // Datos personales
+    doc.setFontSize(16);
+    doc.text('Datos del Usuario', 14, y);
+    doc.setFontSize(12);
+    y += 8;
+    doc.text(`Nombre: ${this.user.nombre || ''}`, 14, y);
+    y += 7;
+    doc.text(`Correo: ${this.user.correo || ''}`, 14, y);
+    y += 7;
+    doc.text(`Peso actual: ${this.user.peso_actual || ''} kg`, 14, y);
+    y += 7;
+    doc.text(`Altura: ${this.user.altura || ''} cm`, 14, y);
+    y += 7;
+    doc.text(`Objetivo: ${this.user.objetivo || ''}`, 14, y);
+    y += 10;
 
-  // Rutina IA o genérica (si existen datos)
-  if (this.rutinaIA?.length) {
-    doc.setFontSize(14);
-    doc.text('Rutina personalizada IA', 14, y);
-    y += 6;
-    this.rutinaIA.forEach((dia: any) => {
-      doc.setFontSize(12);
-      doc.text(`${dia.dia}`, 14, y);
-      y += 4;
+    // Rutina IA o genérica (si existen datos)
+    if (this.rutinaIA?.length) {
+      doc.setFontSize(14);
+      doc.text('Rutina personalizada IA', 14, y);
+      y += 6;
+      this.rutinaIA.forEach((dia: any) => {
+        doc.setFontSize(12);
+        doc.text(`${dia.dia}`, 14, y);
+        y += 4;
+        autoTable(doc, {
+          startY: y,
+          head: [['Ejercicio', 'Serie', 'Repeticiones/Tiempo', 'Descanso']],
+          body: dia.ejercicios.map((ej: any) => [
+            ej.nombre,
+            ej.series || '-',
+            ej.repeticiones || ej.tiempo || '-',
+            ej.descanso || '-'
+          ]),
+          theme: 'grid',
+          styles: { fontSize: 10 },
+          margin: { left: 14, right: 14 }
+        });
+        y = (doc as any).lastAutoTable.finalY + 6;
+      });
+    } else if (this.rutina?.length) {
+      doc.setFontSize(14);
+      doc.text('Rutina', 14, y);
+      y += 6;
       autoTable(doc, {
         startY: y,
-        head: [['Ejercicio', 'Serie', 'Repeticiones/Tiempo', 'Descanso']],
-        body: dia.ejercicios.map((ej: any) => [
-          ej.nombre,
-          ej.series || '-',
-          ej.repeticiones || ej.tiempo || '-',
-          ej.descanso || '-'
+        head: [['Días por Semana', 'Tipo de Entrenamiento', 'Semana', 'Principios', 'Enfoque']],
+        body: this.rutina.map((ej: any) => [
+          ej.dias_por_semana,
+          ej.tipo_entrenamiento,
+          ej.semana,
+          ej.principios,
+          ej.enfoque
         ]),
         theme: 'grid',
         styles: { fontSize: 10 },
         margin: { left: 14, right: 14 }
       });
       y = (doc as any).lastAutoTable.finalY + 6;
-    });
-  } else if (this.rutina?.length) {
-    doc.setFontSize(14);
-    doc.text('Rutina', 14, y);
-    y += 6;
-    autoTable(doc, {
-      startY: y,
-      head: [['Días por Semana', 'Tipo de Entrenamiento', 'Semana', 'Principios', 'Enfoque']],
-      body: this.rutina.map((ej: any) => [
-        ej.dias_por_semana,
-        ej.tipo_entrenamiento,
-        ej.semana,
-        ej.principios,
-        ej.enfoque
-      ]),
-      theme: 'grid',
-      styles: { fontSize: 10 },
-      margin: { left: 14, right: 14 }
-    });
-    y = (doc as any).lastAutoTable.finalY + 6;
-  }
+    }
 
-  // Dieta IA o genérica (si existen datos)
-  if (this.dietaIA?.length) {
-    doc.setFontSize(14);
-    doc.text('Dieta personalizada IA', 14, y);
-    y += 6;
-    this.dietaIA.forEach((dia: any) => {
-      doc.setFontSize(12);
-      doc.text(`Día ${dia.dia}`, 14, y);
-      y += 4;
+    // Dieta IA o genérica (si existen datos)
+    if (this.dietaIA?.length) {
+      doc.setFontSize(14);
+      doc.text('Dieta personalizada IA', 14, y);
+      y += 6;
+      this.dietaIA.forEach((dia: any) => {
+        doc.setFontSize(12);
+        doc.text(`Día ${dia.dia}`, 14, y);
+        y += 4;
+        autoTable(doc, {
+          startY: y,
+          head: [['Comida', 'Alimentos', 'Cantidad']],
+          body: dia.comidas.map((comida: any) => [
+            comida.nombre,
+            comida.alimentos,
+            comida.cantidad
+          ]),
+          theme: 'grid',
+          styles: { fontSize: 10 },
+          margin: { left: 14, right: 14 }
+        });
+        y = (doc as any).lastAutoTable.finalY + 6;
+      });
+    } else if (this.dietaActual?.nombre) {
+      doc.setFontSize(14);
+      doc.text('Dieta', 14, y);
+      y += 6;
       autoTable(doc, {
         startY: y,
-        head: [['Comida', 'Alimentos', 'Cantidad']],
-        body: dia.comidas.map((comida: any) => [
-          comida.nombre,
-          comida.alimentos,
-          comida.cantidad
-        ]),
+        head: [['Nombre', 'Descripción']],
+        body: [[this.dietaActual.nombre, this.dietaActual.descripcion]],
         theme: 'grid',
         styles: { fontSize: 10 },
         margin: { left: 14, right: 14 }
       });
       y = (doc as any).lastAutoTable.finalY + 6;
-    });
-  } else if (this.dietaActual?.nombre) {
-    doc.setFontSize(14);
-    doc.text('Dieta', 14, y);
-    y += 6;
-    autoTable(doc, {
-      startY: y,
-      head: [['Nombre', 'Descripción']],
-      body: [[this.dietaActual.nombre, this.dietaActual.descripcion]],
-      theme: 'grid',
-      styles: { fontSize: 10 },
-      margin: { left: 14, right: 14 }
-    });
-    y = (doc as any).lastAutoTable.finalY + 6;
-  }
+    }
 
-  doc.save('rutina_y_dieta.pdf');
-}
+    doc.save('rutina_y_dieta.pdf');
+  }
 }

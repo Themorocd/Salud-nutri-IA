@@ -6,6 +6,9 @@
         <a *ngIf="!isAuthenticated()" href="/register" routerLinkActive="active" class="form-navbar-link">Registro</a>
         <a *ngIf="!isAuthenticated()" href="/recuperacion" routerLinkActive="active" class="form-navbar-link">¿Olvidaste tu contraseña?</a>
       </nav>
+          <button (click)="cambiarIdioma()" class="idioma-btn">
+    {{ idioma === 'es' ? 'English' : 'Español' }}
+  </button>
       <router-outlet></router-outlet> <!-- Aquí se cargarán los componentes de las rutas -->
     </div>
   </main>
